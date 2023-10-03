@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="col-md-6 offset-md-3">
+
+<form method="POST" action="{% url 'add_record' %}"  >
+    {% csrf_token %}
+    {{ form.as_p}}
+
+
+    <button type="submit" class="btn btn-secondary">
+        Add Record
+    </button>
+
+
+
+</form>
+    <script>
+    const countrySelect = document.querySelector('#id_country');
+    const citySelect = document.querySelector('#id_city');
+
+    // Define city options for each country
+    const cityOptions = {
+        'India': ['Kerala', 'TamilNadu'],
+        'USA': ['Mexico', 'Chicago'],
+    };
+
+    // Function to update city options based on the selected country
+    function updateCityOptions() {
+        const selectedCountry = countrySelect.value;
+        const cityOptionsForCountry = cityOptions[selectedCountry] || [];
+
+        // Clear existing city options
+        citySelect.innerHTML = '';
+
+        // Populate city options
+        cityOptionsForCountry.forEach(city => {
+            const option = document.createElement('option');
+            option.value = city;
+            option.text = city;
+            citySelect.appendChild(option);
+        });
+    }
+
+    // Event listener to update city options when the country changes
+    countrySelect.addEventListener('change', updateCityOptions);
+
+    // Initial update
+    updateCityOptions();
+</script>
+
+
+</div>
+
+
+{% endblock%}
